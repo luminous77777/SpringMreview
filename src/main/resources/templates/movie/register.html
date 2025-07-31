@@ -1,10 +1,15 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.11.0/axios.min.js"
+        integrity="sha512-h9644v03pHqrIHThkvXhB2PJ8zf5E9IyVnrSfZg8Yj8k4RsO4zldcQc4Bi9iVLUCCsqNY0b4WXVV4UB+wbWENA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet" th:href="@{/css/styles.css}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <th:block th:replace="~{/layout/index :: setContent(~{this::content})}">
     <th:block th:fragment="content">
       <h1 class="mt-4">movie Register Page</h1>
 
-      <form th:action="@{/movie/register}" method="post">
+      <form th:action="@{/movie/register}" method="post" class="register-form">
         <div class="form-group my-3">
           <labe>Title</labe>
           <input type="text" class="form-control" name="title" placeholder="Enter Title">
@@ -12,11 +17,78 @@
 
         <div class="form-group my-3">
           <label for="files">image files</label>
-          <input type="file" class="form-control" id="files" name="files" placeholder="writerEmail">
+          <input type="file" class="form-control" id="files" name="files" placeholder="writerEmail" multiple accept="image/*">
         </div>
-        <div class="box my-3"></div>
+        <ul class="box my-3 upload-list"></ul>
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </th:block>
   </th:block>
+
+  <script>
+
+    document.querySelector(".register-form").addEventListener("submit", (event) => {
+      event.preventDefault();
+    })
+
+    const btnUpload = document.querySelector('#btnUpload');
+
+    window.addEventListener('load', (event) => {
+      document.querySelector('.upload-list').addEventListener('click', (event) => {
+        if(event.target.matches('button, button i')){
+          event.target.closest('li').remove();
+        }
+      })
+    });
+
+
+
+    document.querySelector("#files").addEventListener('change', (event) => {
+      event.preventDefault();
+      const formData = new FormData();
+
+      const files = document.querySelector("[type=file]").files;
+      for (const file of files) {
+        console.log(file);
+        formData.append("files", file);
+      }
+
+      console.log(axios);
+      (async () => {
+            try {
+              const resp = await axios.post('/uploadAjax', formData, {
+                headers: {
+                  "content-Type": "multipart/form-data",
+                }
+              });
+
+              console.log("업로드 완료");
+              console.log(resp.data);
+              document.querySelector(".upload-list").innerHTML += resp.data.map(ele => {
+                return `<li data-uuid="${ele.uuid}" data-origin="${ele.origin}" data-path="${ele.path}">
+                          <img src="/display${ele.thumb}" alt=${ele.origin}><button class="btn"><i class="fa-solid fa-x"></i></button>
+                        </li>`;
+              }).join("");
+
+
+            } catch (error) {
+              console.log(error);
+              if (error.response) {
+
+
+                const status = error.response.status;
+                if (status === 400) {
+                  alert(error.response.data);
+                } else if (status === 500) {
+                  alert("서버 오류가 발생했습니다")
+                }
+              } else {
+                alert("알수 없는 오류");
+              }
+            }
+          }
+      )();
+
+    })
+  </script>
 </html>

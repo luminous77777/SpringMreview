@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public sealed interface MovieService permits MovieServiceImpl{
-  Object register(MovieDTO dto);
+  Long register(MovieDTO dto);
 //무비 객체와 이미지 처리를 같이해야함
   default Map<String, Object> toEntity(MovieDTO dto){
     Map<String, Object> map = new HashMap<>();
