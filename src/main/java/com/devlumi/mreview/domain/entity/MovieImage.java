@@ -22,5 +22,6 @@ public class MovieImage {
   private String path;
 
   @ManyToOne(fetch = FetchType.LAZY)
+//  @Setter
   private Movie movie;
 }
