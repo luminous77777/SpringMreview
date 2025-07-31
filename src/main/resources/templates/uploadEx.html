@@ -9,6 +9,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.11.0/axios.min.js"
           integrity="sha512-h9644v03pHqrIHThkvXhB2PJ8zf5E9IyVnrSfZg8Yj8k4RsO4zldcQc4Bi9iVLUCCsqNY0b4WXVV4UB+wbWENA=="
           crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 <input type="file" name="files" multiple>
@@ -20,6 +22,17 @@
 
 <script>
   const btnUpload = document.querySelector('#btnUpload');
+
+  window.addEventListener('load', (event) => {
+    document.querySelector('.upload-list').addEventListener('click', (event) => {
+      if(event.target.matches('button, button i')){
+        event.target.closest('li').remove();
+      }
+    })
+  });
+
+
+
   btnUpload.addEventListener('click', (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -42,7 +55,7 @@
             console.log("업로드 완료");
             console.log(resp.data);
             document.querySelector(".upload-list").innerHTML += resp.data.map(ele => {
-              return `<li><img src="/display${ele.thumb}" alt=${ele.origin}></li>`;
+              return `<li><img src="/display${ele.thumb}" alt=${ele.origin}><button class="btn"><i class="fa-solid fa-x"></i></button></li>`;
             }).join("");
 
 
