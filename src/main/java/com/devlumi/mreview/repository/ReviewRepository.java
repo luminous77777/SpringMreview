@@ -1,6 +1,6 @@
 package com.devlumi.mreview.repository;
 
-import com.devlumi.mreview.entity.Review;
+import com.devlumi.mreview.domain.entity.Review;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

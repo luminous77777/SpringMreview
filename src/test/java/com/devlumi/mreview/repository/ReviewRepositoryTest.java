@@ -1,8 +1,8 @@
 package com.devlumi.mreview.repository;
 
-import com.devlumi.mreview.entity.Member;
-import com.devlumi.mreview.entity.Movie;
-import com.devlumi.mreview.entity.Review;
+import com.devlumi.mreview.domain.entity.Member;
+import com.devlumi.mreview.domain.entity.Movie;
+import com.devlumi.mreview.domain.entity.Review;
 
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;

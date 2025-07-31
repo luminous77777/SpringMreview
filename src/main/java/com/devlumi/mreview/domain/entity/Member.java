@@ -1,4 +1,4 @@
-package com.devlumi.mreview.entity;
+package com.devlumi.mreview.domain.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
