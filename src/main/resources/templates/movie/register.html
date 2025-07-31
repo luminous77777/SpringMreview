@@ -20,6 +20,7 @@
           <input type="file" class="form-control" id="files" name="files" placeholder="writerEmail" multiple accept="image/*">
         </div>
         <ul class="box my-3 upload-list"></ul>
+<!--        <input type="hidden" name="list[0].uuid" value="1234"/> 테스트용-->
         <button type="submit" class="btn btn-primary">Submit</button>
       </form>
     </th:block>
@@ -27,8 +28,19 @@
 
   <script>
 
-    document.querySelector(".register-form").addEventListener("submit", (event) => {
+     document.querySelector(".register-form").addEventListener("submit", (event) => {
       event.preventDefault();
+      event.target.innerHTML += [...document.querySelectorAll(".upload-list li")].map(function (el, index) {
+        // console.log(e.dataset);
+        const obj = {...el.dataset};
+        console.log(obj)
+        let str = "";
+        for(const x in obj){
+          str += `<input type="hidden" name="list[${index}].${x}" value="${obj[x]}">`;
+        }
+        return str;
+      }).join("") //엄밀히 따지면 한문장
+       event.target.submit();
     })
 
     const btnUpload = document.querySelector('#btnUpload');
