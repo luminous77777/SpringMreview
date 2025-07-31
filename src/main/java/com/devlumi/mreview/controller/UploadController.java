@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Map;
@@ -28,31 +29,21 @@ public class UploadController {
   @PostMapping("uploadAjax")
 //  @ResponseBody
   public @ResponseBody ResponseEntity<?> uploadAjax(MultipartFile[] files){
-    log.info("uploadPath 경로1: {}", uploadPath);
     return ResponseEntity.ok(Arrays.stream(files).map(f -> {
-      String uuid = UUID.randomUUID().toString();
-      String folderPath = makeFolder();
+      String uuid = null;
+      String folderPath = null;
+
       try {
       //이미지만 업로드 가능
 
-        log.info("uploadPath 경로2: {}", uploadPath);
+      log.info(f.getOriginalFilename());
+      folderPath = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+      uuid = UUID.randomUUID().toString();
+      folderPath = uploadPath + File.separator + folderPath;
+      String saveName = uuid +"_"+ f.getOriginalFilename();
+      new File(folderPath).mkdirs();
+      f.transferTo(new File(folderPath,saveName));
 
-        String originalName = f.getOriginalFilename();
-        String fileName = originalName.substring(originalName.lastIndexOf("\\")+1);
-
-        log.info(f.getOriginalFilename());
-
-        log.info("fileName: {}", fileName);
-
-
-        //UUID
-
-
-      String saveName = uploadPath + File.separator + folderPath + File.separator + uuid +"_"+ fileName;
-
-      Path savePath = Paths.get(saveName);
-
-        f.transferTo(savePath);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
@@ -65,16 +56,16 @@ public class UploadController {
   }
 
 
-  private String makeFolder(){
-    String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
-
-    String folderPath = str.replace("/", File.separator);
-
-    File uploadPathFolder = new File(uploadPath, folderPath);
-
-    if(uploadPathFolder.exists() == false){
-      uploadPathFolder.mkdirs();
-    }
-    return folderPath;
-  }
+//  private String makeFolder(){
+//    String str = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd"));
+//
+//    String folderPath = str.replace("/", File.separator);
+//
+//    File uploadPathFolder = new File(uploadPath, folderPath);
+//
+//    if(uploadPathFolder.exists() == false){
+//      uploadPathFolder.mkdirs();
+//    }
+//    return folderPath;
+//  }
 }

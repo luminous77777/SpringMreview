@@ -1,78 +1,78 @@
-plugins {
-  id 'java'
-  id 'org.springframework.boot' version '3.5.4'
-  id 'io.spring.dependency-management' version '1.1.7'
-}
-
-group = 'com.dev-lumi'
-version = '0.0.1-SNAPSHOT'
-
-java {
-  toolchain {
-    languageVersion = JavaLanguageVersion.of(21)
+  plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.5.4'
+    id 'io.spring.dependency-management' version '1.1.7'
   }
-}
 
-configurations {
-  compileOnly {
-    extendsFrom annotationProcessor
-  }
-}
+  group = 'com.dev-lumi'
+  version = '0.0.1-SNAPSHOT'
 
-repositories {
-  mavenCentral()
-}
-
-dependencies {
-  implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-  implementation 'org.springframework.boot:spring-boot-starter-web'
-
-  compileOnly 'org.projectlombok:lombok'
-  annotationProcessor 'org.projectlombok:lombok'
-
-  developmentOnly 'org.springframework.boot:spring-boot-devtools'
-  runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
-
-  testCompileOnly 'org.projectlombok:lombok'
-  testAnnotationProcessor 'org.projectlombok:lombok'
-
-  implementation 'org.springframework.boot:spring-boot-starter-tomcat'
-  testImplementation 'org.springframework.boot:spring-boot-starter-test'
-  testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-
-  implementation 'org.springframework.boot:spring-boot-starter-log4j2'
-
-  // QueryDSL - Jakarta 버전 (Spring Boot 3.x 대응)
-  implementation "com.querydsl:querydsl-jpa:5.1.0:jakarta"
-  annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
-
-  // Jakarta 어노테이션 API (Q클래스 생성 시 필요)
-  annotationProcessor 'jakarta.persistence:jakarta.persistence-api:3.1.0'
-
-  //map sturct -> toentity 같은거
-  implementation 'org.mapstruct:mapstruct:1.6.3'
-  annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
-  annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
-}
-
-tasks.named('test') {
-  useJUnitPlatform()
-}
-
-configurations {
-  all {
-    exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-  }
-}
-
-sourceSets {
-  main {
-    java {
-      srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+  java {
+    toolchain {
+      languageVersion = JavaLanguageVersion.of(21)
     }
   }
-}
 
-compileJava.dependsOn('clean')
+  configurations {
+    compileOnly {
+      extendsFrom annotationProcessor
+    }
+  }
+
+  repositories {
+    mavenCentral()
+  }
+
+  dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.mariadb.jdbc:mariadb-java-client'
+
+    testCompileOnly 'org.projectlombok:lombok'
+    testAnnotationProcessor 'org.projectlombok:lombok'
+
+    implementation 'org.springframework.boot:spring-boot-starter-tomcat'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+
+    // QueryDSL - Jakarta 버전 (Spring Boot 3.x 대응)
+    implementation "com.querydsl:querydsl-jpa:5.1.0:jakarta"
+    annotationProcessor "com.querydsl:querydsl-apt:5.1.0:jakarta"
+
+    // Jakarta 어노테이션 API (Q클래스 생성 시 필요)
+    annotationProcessor 'jakarta.persistence:jakarta.persistence-api:3.1.0'
+
+    //map sturct -> toentity 같은거
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+    annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+  }
+
+  tasks.named('test') {
+    useJUnitPlatform()
+  }
+
+  configurations {
+    all {
+      exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
+  }
+
+  sourceSets {
+    main {
+      java {
+        srcDirs = ["$projectDir/src/main/java", "$projectDir/build/generated"]
+      }
+    }
+  }
+
+  compileJava.dependsOn('clean')
 
