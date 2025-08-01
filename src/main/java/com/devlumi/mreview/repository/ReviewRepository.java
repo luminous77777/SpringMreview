@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.util.List;
 
 public interface ReviewRepository extends CrudRepository<Review, Long> {
+
   @EntityGraph(attributePaths = "member", type = EntityGraph.EntityGraphType.FETCH) //{"",""}
   List<Review> findByMovie_mno(Long mno);
 

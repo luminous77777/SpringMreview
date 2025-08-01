@@ -52,7 +52,7 @@ private final MovieImageRepository movieImageRepository;
     log.info("mno 번호 : {}",mno);
     List<Object[]> list = movieRepository.getMovieWithAll(mno);
     Movie movie = (Movie)list.getFirst()[0];
-    List<MovieImage> movieImages = list.stream().map(m -> (MovieImage) m[1]).toList();
+    List<MovieImage> movieImages = (Arrays.asList((MovieImage) list.getFirst()[1]));
     Double avg = (Double) list.getFirst()[2];
     Long reviewCnt = (Long) list.getFirst()[3];
 

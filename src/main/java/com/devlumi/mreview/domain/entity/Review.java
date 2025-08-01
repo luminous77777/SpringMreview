@@ -21,8 +21,8 @@ public class Review extends BaseEntity{
 
   @ManyToOne(fetch = FetchType.LAZY)
   private Member member;
-
+  @Setter
   private int grade;
-
+  @Setter
   private String text;
 }
