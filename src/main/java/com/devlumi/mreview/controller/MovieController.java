@@ -2,6 +2,7 @@ package com.devlumi.mreview.controller;
 
 import com.devlumi.mreview.domain.dto.MovieDTO;
 import com.devlumi.mreview.domain.dto.PageRequestDTO;
+import com.devlumi.mreview.domain.dto.PageResponseDTO;
 import com.devlumi.mreview.domain.entity.Movie;
 import com.devlumi.mreview.service.MovieService;
 import lombok.Data;
@@ -36,6 +37,14 @@ public class MovieController {
 
   @GetMapping("list")
   public void list(@ModelAttribute("requestDto")  PageRequestDTO pageRequestDTO, Model model) {
-    model.addAttribute("movies", movieService.getList(pageRequestDTO));
+    PageResponseDTO<?, ?> dto = movieService.getList(pageRequestDTO);  //어떤 값을 전달하는지 확인용
+    log.info(dto);
+    model.addAttribute("movies", dto);
+  }
+
+  @GetMapping("read")
+  public void read(@ModelAttribute("requestDto") PageRequestDTO dto, Model model, Long mno){
+    log.info("readpage.....");
+    model.addAttribute("dto", movieService.get(mno));
   }
 }
